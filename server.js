@@ -6,12 +6,8 @@ const port = 3000;
 
 app.use('/artist', ArtistsRoute);
 
-app.get('/callback', (req, res) => {
-  console.log(req.query);
-});
-
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-app.listen(port, console.log(`Server started on http://localhost:${port}`));
+app.listen(port, console.log('Server started on port', port));
