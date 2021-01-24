@@ -1,14 +1,15 @@
 import { spotifyApi } from '../lib/spotifyApi';
-const result = [];
 
 export const searchForArtists = (req, res) => {
   const { artist } = req.params;
+  const artistResult = [];
+
   spotifyApi
     .searchArtists(`${artist}`)
     .then((data) => {
       const artistResults = data.body.artists.items;
       artistResults.map((a) => {
-        result.push({
+        artistResult.push({
           name: a.name,
           type: a.type,
           uri: a.uri,
@@ -19,7 +20,7 @@ export const searchForArtists = (req, res) => {
           images: a.images,
         });
       });
-      res.json(result);
+      res.json(artistResult);
     })
     .catch((error) => {
       res.json({ error: error.message });
@@ -28,12 +29,13 @@ export const searchForArtists = (req, res) => {
 
 export const getArtistAlbums = (req, res) => {
   const { artistId } = req.params;
+  const artistAlbumResults = [];
   spotifyApi
     .getArtistAlbums(`${artistId}`)
     .then((data) => {
       const albumResults = data.body.items;
       albumResults.map((a) =>
-        result.push({
+        artistAlbumResults.push({
           name: a.name,
           release_data: a.release_date,
           tracks: a.total_tracks,
@@ -47,7 +49,7 @@ export const getArtistAlbums = (req, res) => {
           images: a.images,
         })
       );
-      res.json(result);
+      res.json(artistAlbumResults);
     })
     .catch((error) => res.json({ error: error.message }));
 };
